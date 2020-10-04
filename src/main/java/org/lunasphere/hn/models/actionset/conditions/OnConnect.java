@@ -5,11 +5,7 @@ import org.lunasphere.hn.models.actionset.ActionCondition;
 
 @JacksonXmlRootElement(localName = "OnConnect")
 public class OnConnect extends ActionCondition {
-    public OnConnect(String target, boolean needsMissionComplete, String requiredFlags) {
+    public OnConnect(String target) {
         this.setTarget(target);
-        this.setNeedsMissionComplete(needsMissionComplete);
-        this.setRequiredFlags(requiredFlags);
     }
-
-
 }
