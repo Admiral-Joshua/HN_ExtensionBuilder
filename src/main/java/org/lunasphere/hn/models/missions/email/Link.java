@@ -1,9 +1,11 @@
 package org.lunasphere.hn.models.missions.email;
 
+import com.fasterxml.jackson.databind.annotation.JacksonStdImpl;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-@JacksonXmlRootElement(localName = "link")
-public class Link extends EmailAttachment {
+public class Link {
+    @JacksonXmlProperty(isAttribute = true)
     String comp;
 
     public Link(String comp) {

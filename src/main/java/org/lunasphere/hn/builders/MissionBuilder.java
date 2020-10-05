@@ -145,20 +145,20 @@ public class MissionBuilder {
                         ResultSet results = attachmentStmt.executeQuery();
 
                         while (results.next()) {
-                            EmailAttachment attachment;
+                            EmailAttachments attachments = new EmailAttachments();
 
                             switch (results.getInt("typeId")) {
                                 case 1:
-                                    attachment = new Note(results.getString("title"), results.getString("content"));
+                                    attachments.addNote(new Note(results.getString("title"), results.getString("content")));
                                     break;
                                 case 2:
-                                    attachment = new Link(results.getString("comp"));
+                                    attachments.addLink(new Link(results.getString("comp")));
                                     break;
                                 default:
-                                    attachment = new Account(results.getString("comp"), results.getString("user"), results.getString("pass"));
+                                    attachments.addAccount(new Account(results.getString("comp"), results.getString("user"), results.getString("pass")));
                             }
 
-                            email.addAttachment(attachment);
+                            email.setAttachments(attachments);
                         }
 
                     } catch (SQLException ex) {

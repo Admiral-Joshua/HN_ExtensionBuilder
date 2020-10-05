@@ -1,32 +1,20 @@
 package org.lunasphere.hn.models.missions.email;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 public class MissionEmail {
     String sender;
     String subject;
     String body;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JacksonXmlElementWrapper(localName = "attachments")
-    Collection<EmailAttachment> attachments;
+    //@JsonInclude(JsonInclude.Include.NON_NULL)
+    @JacksonXmlElementWrapper(localName = "attachments", useWrapping = false)
+    EmailAttachments attachments;
 
     public MissionEmail(String sender, String subject, String body) {
         this.sender = sender;
         this.subject = subject;
         this.body = body;
-    }
-
-    public void addAttachment(EmailAttachment attachment) {
-        if (this.attachments == null) {
-            this.attachments = new ArrayList<>();
-        }
-
-        this.attachments.add(attachment);
     }
 
     public String getSender() {
@@ -53,11 +41,11 @@ public class MissionEmail {
         this.body = body;
     }
 
-    public Collection<EmailAttachment> getAttachments() {
+    public EmailAttachments getAttachments() {
         return attachments;
     }
 
-    public void setAttachments(Collection<EmailAttachment> attachments) {
+    public void setAttachments(EmailAttachments attachments) {
         this.attachments = attachments;
     }
 }

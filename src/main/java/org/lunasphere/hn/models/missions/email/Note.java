@@ -1,11 +1,11 @@
 package org.lunasphere.hn.models.missions.email;
 
+import com.fasterxml.jackson.databind.annotation.JacksonStdImpl;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 
-@JacksonXmlRootElement(localName = "note")
-public class Note extends EmailAttachment {
+public class Note {
     @JacksonXmlProperty(isAttribute = true)
     String title;
 

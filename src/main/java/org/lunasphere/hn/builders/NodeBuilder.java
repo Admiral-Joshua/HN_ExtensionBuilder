@@ -179,10 +179,15 @@ public class NodeBuilder {
                 //String type, boolean resetPassword, boolean isSuper
                 Admin admin = getAdminInfo(results.getInt("adminInfoId"));
 
+                String nodeIP = results.getString("ip");
+                if (nodeIP.isEmpty()) {
+                    nodeIP = "#RANDOM_IP#";
+                }
+
                 CompNode node = new CompNode(
                         results.getString("id"),
                         results.getString("name"),
-                        results.getString("ip"),
+                        nodeIP,
                         results.getInt("securityLevel"),
                         results.getBoolean("allowsDefaultBootModule"),
                         results.getString("icon"),
