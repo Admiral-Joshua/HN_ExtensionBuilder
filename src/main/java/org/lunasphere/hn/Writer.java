@@ -1,12 +1,17 @@
 package org.lunasphere.hn;
 
+import org.zeroturnaround.zip.ZipUtil;
+
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
+import java.util.zip.ZipOutputStream;
 
 public class Writer {
     Path srcDir;
@@ -15,7 +20,7 @@ public class Writer {
     private static final String USER_DATA = System.getenv("user_data_dir");
     private static final String BASE_PATH = System.getenv("export_base_dir");
 
-    public Writer(int extensionId, int userId) {
+    public Writer(int extensionId, int userId, Long buildId) {
         srcDir = Paths.get(USER_DATA, Integer.toString(userId), Integer.toString(extensionId));
         if (!Files.exists(srcDir)) {
             System.err.println("FATAL ERROR - EACCESS Error: '" + srcDir.toString() + "'\nUser data directory missing or invalid! Please check environmental variable 'user_data_dir' and try again!");
@@ -23,6 +28,16 @@ public class Writer {
         }
 
         outDir = Paths.get(BASE_PATH, Integer.toString(extensionId));
+
+        if (!Files.exists(outDir)) {
+            try {
+                Files.createDirectory(outDir);
+            } catch (IOException ex) {
+                System.err.println("CRITICAL ERROR - Could not create output directory.");
+            }
+        }
+
+        outDir = Paths.get(BASE_PATH, Integer.toString(extensionId), Long.toString(buildId));
 
         if (!Files.exists(outDir)) {
             try {
@@ -135,5 +150,14 @@ public class Writer {
         } else {
             System.err.println("Could not find requested Background " + src.toString());
         }
+    }
+
+
+    public void archiveBuild(Long buildId) {
+        String zipLoc = Paths.get(outDir.toString(), "..", Long.toString(buildId) + ".zip").toString();
+        File src = new File(outDir.toString());
+        File dest = new File(zipLoc);
+
+        ZipUtil.pack(src, dest);
     }
 }

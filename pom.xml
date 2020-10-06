@@ -33,7 +33,12 @@
             <artifactId>postgresql</artifactId>
             <version>42.2.16</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.zeroturnaround</groupId>
+            <artifactId>zt-zip</artifactId>
+            <version>1.14</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 
     <properties>
@@ -48,7 +53,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.lunasphere.hn.Builder</mainClass>
+                            <mainClass>org.lunasphere.hn.BuilderCLI</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
