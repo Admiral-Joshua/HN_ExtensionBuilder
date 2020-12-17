@@ -10,6 +10,7 @@ import org.lunasphere.hn.models.missions.Mission;
 import org.lunasphere.hn.models.nodes.CompNode;
 import org.lunasphere.hn.models.themes.Theme;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -136,10 +137,25 @@ public class ExtensionBuilder {
                     break;
                 case MUSIC:
                     System.out.println(" -- type: MusicTrack... Copying... \n");
-                    try {
-                        writer.copyMusicTrack(change.getObjectId());
-                    } catch (IOException ex) {
-                        System.err.println("Failed to copy requested music track.\nExcpetion Details: " + ex.getMessage());
+                    if (change.isDeletion()) {
+                        writer.deleteMusicTrack(change.getObjectId());
+
+                        // Clean-up...
+                        try(Connection conn = sql.getConnection()) {
+                            PreparedStatement cleanChange = conn.prepareStatement("DELETE FROM \"change_log\" WHERE \"change_id\" = ?");
+                            cleanChange.setLong(1, change.getChangeId());
+
+                            cleanChange.execute();
+                        } catch (SQLException ex) {
+                            System.err.println(String.format(ErrorStrings.DB_CONN_ERR, ex.getMessage()));
+                            //System.exit(1);
+                        }
+                    } else {
+                        try {
+                            writer.copyMusicTrack(change.getObjectId());
+                        } catch (IOException ex) {
+                            System.err.println("Failed to copy requested music track.\nExcpetion Details: " + ex.getMessage());
+                        }
                     }
                     break;
                 case MISSION:

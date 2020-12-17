@@ -21,10 +21,24 @@ public class Writer {
     private static final String BASE_PATH = System.getenv("export_base_dir");
 
     public Writer(int extensionId, int userId, Long buildId) {
+        srcDir = Paths.get(USER_DATA, Integer.toString(userId));
+        if (!Files.exists(srcDir)) {
+            try {
+                Files.createDirectory(srcDir);
+            } catch (IOException ex) {
+                System.err.println("FATAL ERROR - EACCESS Error: '" + srcDir.toString() + "'\nUser data directory missing or invalid! Please check environmental variable 'user_data_dir' and try again!");
+                System.exit(1);
+            }
+        }
+
         srcDir = Paths.get(USER_DATA, Integer.toString(userId), Integer.toString(extensionId));
         if (!Files.exists(srcDir)) {
-            System.err.println("FATAL ERROR - EACCESS Error: '" + srcDir.toString() + "'\nUser data directory missing or invalid! Please check environmental variable 'user_data_dir' and try again!");
-            System.exit(1);
+            try {
+                Files.createDirectory(srcDir);
+            } catch (IOException ex) {
+                System.err.println("FATAL ERROR - EACCESS Error: '" + srcDir.toString() + "'\nUser data directory missing or invalid! Please check environmental variable 'user_data_dir' and try again!");
+                System.exit(1);
+            }
         }
 
         outDir = Paths.get(BASE_PATH, Integer.toString(extensionId));
@@ -132,6 +146,14 @@ public class Writer {
             Files.copy(src, dest, StandardCopyOption.REPLACE_EXISTING);
         } else {
             System.err.println("Could not find requested Music Track " + trackId + ".ogg");
+        }
+    }
+
+    public void deleteMusicTrack(int trackId) {
+        File target = new File(Paths.get(outDir.toString(), "Music", trackId + ".ogg").toString());
+
+        if (target.exists()) {
+            target.delete();
         }
     }
 

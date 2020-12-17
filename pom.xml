@@ -53,7 +53,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.lunasphere.hn.BuilderCLI</mainClass>
+                            <mainClass>org.lunasphere.hn.BuilderService</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

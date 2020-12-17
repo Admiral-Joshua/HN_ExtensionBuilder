@@ -2,11 +2,14 @@ package org.lunasphere.hn;
 
 import org.apache.commons.cli.*;
 
+import java.io.IOException;
+
 
 public class BuilderCLI {
 
-    public static void main(String[] args) {
-        SQLConfig sql = new SQLConfig("localhost", 5432, "EXTENSIONS_DB", "postgres", "postgres");
+    public static void main(String[] args) throws IOException {
+        //SQLConfig sql = new SQLConfig("localhost", 5432, "EXTENSIONS_DB", "postgres", "postgres");
+        SQLConfig sql = SQLConfig.loadConfig(args[0]);
 
         Options opts = new Options();
         opts.addOption(new Option("e", "extension-id", true, "Extension ID"));

@@ -232,10 +232,10 @@ public class ExtInfoBuilder {
 
             int userId = getUserId(conn);
 
-            String query = "SELECT * FROM \"hn_Music\" WHERE \"ownerId\" = ?";
+            String query = "SELECT \"hn_Music\".* FROM \"LN_extension_music\" INNER JOIN \"hn_Music\" ON \"hn_Music\".\"musicId\" = \"LN_extension_music\".\"musicId\" WHERE \"extensionId\" = ?";
             try (PreparedStatement stmt = conn.prepareStatement(query)) {
 
-                stmt.setInt(1, userId);
+                stmt.setInt(1, extensionId);
 
                 ResultSet results = stmt.executeQuery();
 
@@ -281,7 +281,8 @@ public class ExtInfoBuilder {
                         results.getInt("object_id"),
                         DatabaseChange.ChangeObjectType.fromInt(results.getInt("object_type_id")),
                         results.getTimestamp("last_change"),
-                        results.getTimestamp("last_build")
+                        results.getTimestamp("last_build"),
+                        results.getBoolean("is_deleted")
                 );
 
                 retVal.add(change);

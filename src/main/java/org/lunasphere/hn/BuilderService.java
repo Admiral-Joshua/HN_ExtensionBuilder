@@ -2,6 +2,7 @@ package org.lunasphere.hn;
 
 import org.lunasphere.hn.models.internal.BuildJob;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,10 +12,10 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 public class BuilderService {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, IOException {
         int threadCount = 4;
 
-        SQLConfig sql = new SQLConfig("localhost", 5432, "EXTENSIONS_DB", "postgres", "postgres");
+        SQLConfig sql = SQLConfig.loadConfig(args[0]);
 
         final BlockingQueue<BuildJob> jobQueue = new ArrayBlockingQueue<BuildJob>(threadCount);
 

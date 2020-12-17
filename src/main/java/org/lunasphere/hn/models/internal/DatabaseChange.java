@@ -7,6 +7,7 @@ public class DatabaseChange {
     int metaId, objectId;
     ChangeObjectType changeType;
     Timestamp lastChange, lastBuild;
+    boolean deletion;
 
     public static enum ChangeObjectType {
         UNKNOWN,
@@ -40,13 +41,14 @@ public class DatabaseChange {
         }
     };
 
-    public DatabaseChange(Long changeId, int metaId, int objectId, ChangeObjectType changeType, Timestamp lastChange, Timestamp lastBuild) {
+    public DatabaseChange(Long changeId, int metaId, int objectId, ChangeObjectType changeType, Timestamp lastChange, Timestamp lastBuild, boolean deletion) {
         this.changeId = changeId;
         this.metaId = metaId;
         this.objectId = objectId;
         this.changeType = changeType;
         this.lastChange = lastChange;
         this.lastBuild = lastBuild;
+        this.deletion = deletion;
     }
 
     public Long getChangeId() {
@@ -95,5 +97,13 @@ public class DatabaseChange {
 
     public void setLastBuild(Timestamp lastBuild) {
         this.lastBuild = lastBuild;
+    }
+
+    public boolean isDeletion() {
+        return deletion;
+    }
+
+    public void setDeletion(boolean deletion) {
+        this.deletion = deletion;
     }
 }
